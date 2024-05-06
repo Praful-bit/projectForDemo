@@ -1,17 +1,35 @@
 /* eslint-disable react/prop-types */
-import { useState, } from "react";
+import { useState, useEffect } from "react";
 import CartItem from "./CartItem";
 
 function Cart({ count, TShirts }) {
   const [isOpen, setIsOpen] = useState(false);
- 
+  const [numberOfItems, setNumberOfItems] = useState(1);
+  const [totalAmount, setTotalAmount] = useState(0);
 
+  
   const toggleCart = () => {
     setIsOpen(!isOpen);
   };
-
-
- 
+  
+  const handleIncrease = () => {
+    setNumberOfItems(numberOfItems + 1);
+  };
+  
+  const handleDecrease = () => {
+    if (numberOfItems > 1) {
+      setNumberOfItems(numberOfItems - 1);
+    }
+  };
+  useEffect(() => {
+    const calculateTotalAmount = () => {
+      const total = TShirts.reduce((acc, tshirt) => {
+        return acc + tshirt.price * numberOfItems;
+      }, 0);
+      setTotalAmount(total);
+    };
+    calculateTotalAmount();
+  }, [TShirts, numberOfItems]);
 
   return (
     <>
@@ -31,13 +49,18 @@ function Cart({ count, TShirts }) {
                   key={tshirt.id}
                   tshirt={tshirt.tshirt}
                   price={tshirt.price}
+                  handleDecrease={handleDecrease}
+                  handleIncrease={handleIncrease}
+                  numberOfItems={numberOfItems}
+                  setNumberOfItems={setNumberOfItems}
                 />
               ))}
+              <p>Total Amount: {totalAmount}</p>
               <button
                 onClick={toggleCart}
                 className="bg-gradient-to-r from-green-500 to-green-600 text-white mt-4 rounded-lg py-2 px-4 shadow-md hover:shadow-lg transition duration-300"
-                >
-                Odder
+              >
+                Order
               </button>
               <button
                 className="bg-gradient-to-r from-green-500 to-green-600 text-white mt-4 rounded-lg py-2 ml-48 px-4 shadow-md hover:shadow-lg transition duration-300"
