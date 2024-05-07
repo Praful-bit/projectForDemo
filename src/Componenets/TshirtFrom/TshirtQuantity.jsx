@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
 import Card from '../Card/Card'
+
 function TshirtQuantity({setQuantity}) {
+
     const [isCardOpen,setIsCardOpen] = useState(false)
     const [size, setSize] = useState(0);
 

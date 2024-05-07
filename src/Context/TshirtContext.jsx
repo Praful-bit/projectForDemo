@@ -9,15 +9,19 @@ export const TshirtContext = createContext({
       tshirt: "Tshirt Name",
       desc: "description",
       price: 0,
-      quantity: 0,
+      quantity: { l: 0, m: 0, s: 0 } ,
     },
   ],
   addTshirt: (tshirt) => {},
   addDescription: (desc) => {},
-  addPrice: (price) => {},
+  addPrice: (id, price) => {},
   addQuantity: (quantity) => {},
   deleteItem: (id) => {},
-  handleAddToCart:()=>{}
+  handleAddToCart: (price,tshirt) => {},
+  handleIncrease:(id,qun)=>{},
+  handleDecrease:(id,qun)=>{},
+  qun:1,
+  totalAmount:0
 });
 
 export const TshirtProvider = TshirtContext.Provider

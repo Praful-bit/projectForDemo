@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 
+// import { } from "react";
 import { useTshirt } from "../../Context";
 
 function TshirtList({ tshirt }) {
-  const { deleteItem,handleAddToCart } = useTshirt();
+  const { deleteItem, handleAddToCart } = useTshirt();
+
+  
   
   return (
     <div className="flex items-center justify-between mb-4 bg-gray-100 rounded-lg p-4">
