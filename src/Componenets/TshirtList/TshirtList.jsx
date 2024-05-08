@@ -3,9 +3,9 @@
 // import { } from "react";
 import { useTshirt } from "../../Context";
 
-function TshirtList({ tshirt }) {
+function TshirtList({ tshirt,totalAmount }) {
   const { deleteItem, handleAddToCart } = useTshirt();
-
+  
   
   
   return (
