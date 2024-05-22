@@ -1,43 +1,61 @@
 /* eslint-disable react/prop-types */
 
-// import { } from "react";
 import { useTshirt } from "../../Context";
 
-function TshirtList({ tshirt,totalAmount }) {
-  const { deleteItem, handleAddToCart } = useTshirt();
-  
-  
-  
+function TshirtList() {
+  const { deleteItem, handleAddToCart, TShirts } = useTshirt();
+
   return (
-    <div className="flex items-center justify-between mb-4 bg-gray-100 rounded-lg p-4">
-      <div>
-        <p className="text-xl font-semibold text-gray-900 pr-4">
-          T-Shirt: {tshirt.tshirt}
-          <span className="text-black pl-3">Description: {tshirt.desc}</span>
-          <span className="text-green-600 pl-3">Price: ${tshirt.price}</span>
-          <span className="text-black pl-4">
-            Quantity(L): {tshirt.quantity.l}
-          </span>
-          <span className="text-black pl-4">
-            Quantity(M): {tshirt.quantity.m}
-          </span>
-          <span className="text-black pl-4">
-            Quantity(S): {tshirt.quantity.s}
-          </span>
-        </p>
-      </div>
-      <button
-        className="inline-flex ml-16 w-14 h-12 rounded-lg text-xl border border-black/10 justify-center items-center bg-green-500 hover:bg-blue-700 transition duration-300"
-        onClick={handleAddToCart}
-      >
-        Add
-      </button>
-      <button
-        className="inline-flex mr-8 w-14 h-12 rounded-lg text-xl border border-black/10 justify-center items-center bg-gray-100 hover:bg-gray-400 transition duration-300"
-        onClick={() => deleteItem(tshirt.id)}
-      >
-        ❌
-      </button>
+    <div className="flex flex-col space-y-4">
+      {TShirts.map((tshirt, index) => {
+        // Check if the tshirt object has a nested structure
+        const nestedTshirt = tshirt[0] || tshirt;
+
+        return (
+          <div
+            key={index}
+            className="flex items-center justify-between bg-gray-100 rounded-lg p-4"
+          >
+           
+            {console.log("TShirt object:", nestedTshirt)}
+            {console.log("ID:", nestedTshirt.id)}
+            {console.log("Description:", nestedTshirt.desc)}
+            {console.log("Price:", nestedTshirt.price)}
+            {console.log("Quantity:", nestedTshirt.quantity)}
+
+            <div className="flex items-center space-x-4">
+              <p className="text-xl font-semibold text-gray-900">
+                T-Shirt: {nestedTshirt.tshirt}
+              </p>
+              <p className="text-black">Description: {nestedTshirt.desc}</p>
+              <p className="text-green-600">Price: ${nestedTshirt.price}</p>
+              <p className="text-black">
+                Quantity(L): {nestedTshirt.quantity?.l}
+              </p>
+              <p className="text-black">
+                Quantity(M): {nestedTshirt.quantity?.m}
+              </p>
+              <p className="text-black">
+                Quantity(S): {nestedTshirt.quantity?.s}
+              </p>
+            </div>
+            <div className="flex space-x-4">
+              <button
+                className="w-14 h-12 rounded-lg text-xl border border-black/10 flex justify-center items-center bg-green-500 hover:bg-blue-700 transition duration-300"
+                onClick={() => handleAddToCart(nestedTshirt.id)}
+              >
+                Add
+              </button>
+              <button
+                className="w-14 h-12 rounded-lg text-xl border border-black/10 flex justify-center items-center bg-gray-100 hover:bg-gray-400 transition duration-300"
+                onClick={() => deleteItem(nestedTshirt.id)}
+              >
+                ❌
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

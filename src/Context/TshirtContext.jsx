@@ -3,25 +3,16 @@
 import { createContext, useContext } from 'react'
 
 export const TshirtContext = createContext({
-  TShirts: [
-    {
-      id: 1,
-      tshirt: "Tshirt Name",
-      desc: "description",
-      price: 0,
-      quantity: { l: 0, m: 0, s: 0 } ,
-      qun:1,
-      
-    },
-  ],
+  TShirts: [],
   addTshirt: (tshirt) => {},
   addDescription: (desc) => {},
   addPrice: (id, price) => {},
   addQuantity: (quantity) => {},
   deleteItem: (id) => {},
-  handleAddToCart: (price,tshirt) => {},
-  handleIncrease:(id)=>{},
-  handleDecrease:(id)=>{},
+  handleAddToCart: (price, tshirt) => {},
+  handleIncrease: (id) => {},
+  handleDecrease: (id) => {},
+  fetchData:()=>{}
 });
 
 export const TshirtProvider = TshirtContext.Provider

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { TshirtProvider } from "./Context/TshirtContext";
 import TshirtFrom from "./Componenets/TshirtFrom/TshirtFrom";
@@ -7,6 +7,7 @@ import Cart from "./Componenets/Cart/Cart";
 
 function App() {
   const [TShirts, setTShirts] = useState([]);
+
   const [count, setCount] = useState(0);
   const [qun, setQun] = useState(1);
 
@@ -30,12 +31,18 @@ function App() {
     setTShirts((prev) => prev.filter((tshirt) => tshirt.id !== id));
   };
 
-  const handleAddToCart = (price, tshirt) => {
+  const handleAddToCart = async(price, tshirt) => {
     setTShirts((prev) =>
       prev.map((prevT) =>
         prevT.tshirt === tshirt ? { ...price, ...tshirt } : prevT
       )
-    );
+    )
+    const res =await fetch(`https://t-shirt-10da8-default-rtdb.firebaseio.com/tshirt.json`,{
+      method:"POST",
+      body:JSON.stringify(TShirts)
+    })
+    const resData = res.json()
+    console.log(resData);
     setCount(count + 1);
   };
 
@@ -53,6 +60,26 @@ function App() {
       [id]: (prevValues[id] || 0) + 1,
     }));
   };
+       
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://t-shirt-10da8-default-rtdb.firebaseio.com/tshirt.json`
+        );
+        const resData = await res.json();
+        const array = [];
+        for (const key in resData) {
+          // console.log(resData[key]);
+          array.push({ id: key, ...resData[key] });
+        }
+        // console.log(array);
+        setTShirts(array);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+useEffect(()=>{fetchData()},[])
+    console.log(TShirts);
 
   return (
     <TshirtProvider
@@ -66,6 +93,7 @@ function App() {
         handleAddToCart,
         handleDecrease,
         handleIncrease,
+       fetchData,
       }}
     >
       <div className="flex justify-between items-center">
